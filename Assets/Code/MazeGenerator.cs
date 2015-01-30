@@ -71,6 +71,7 @@ public class MazeGenerator : MonoBehaviour
                 {
                     GameObject temp;
                     temp = Instantiate(Wall, Maze[i, j].Spot.position, Quaternion.identity) as GameObject;
+                    temp.transform.parent = transform;
                 }
             }
         }
