@@ -6,5 +6,6 @@ namespace Assets.Code
     public class UiLinkerBehaviour : MonoBehaviour
     {
         public Image CrosshairImage;
+        public Image FlashlightImage;
     }
 }

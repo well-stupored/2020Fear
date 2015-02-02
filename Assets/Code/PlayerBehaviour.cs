@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace Assets.Code
 {
@@ -56,6 +57,7 @@ namespace Assets.Code
             }
 
             _ui.CrosshairImage.transform.position = screenPosition;
+            _ui.FlashlightImage.transform.position = screenPosition;
         }
     }
 }
