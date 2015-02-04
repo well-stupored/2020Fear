@@ -3,7 +3,6 @@
 namespace Assets.Code
 {
     [RequireComponent (typeof(Rigidbody))]
-    [RequireComponent (typeof(CharacterController))]
     public class PlayerBehaviour : MonoBehaviour
     {
         public GameObject FreezyBreezePrefab;
@@ -33,7 +32,7 @@ namespace Assets.Code
         public void Update ()
         {
 			var targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
-	        _controller.SimpleMove(transform.TransformDirection(targetVelocity * Speed));
+	        //_controller.SimpleMove(transform.TransformDirection(targetVelocity * Speed));
 
             if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
             if (Input.GetKeyDown(KeyCode.P))
