@@ -100,7 +100,7 @@ public class MazeGenerator : MonoBehaviour
             {
                 if(Maze[i,j].IsWall == true)
                 {
-                    int ChoosenOne = Random.Range(0, WallPrefabs.Length - 1);
+                    int ChoosenOne = Random.Range(0, WallPrefabs.Length);
 
                     GameObject temp;
                     temp = Instantiate(WallPrefabs[ChoosenOne], Maze[i, j].Spot.position, Quaternion.identity) as GameObject;
@@ -108,6 +108,10 @@ public class MazeGenerator : MonoBehaviour
                 }
 				else
 				{
+					if(i >= (int)TopLeftOfOpenArea.x && i < TopLeftOfOpenArea.x + OpenAreaDemention &&
+					   j >= (int)TopLeftOfOpenArea.y && j < TopLeftOfOpenArea.y + OpenAreaDemention)
+						continue;
+
 					OpenSpaces.Add(Maze[i,j].Spot.position);
 				}
             }
