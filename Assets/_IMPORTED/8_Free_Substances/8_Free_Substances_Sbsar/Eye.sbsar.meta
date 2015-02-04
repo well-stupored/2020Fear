@@ -66,14 +66,14 @@ SubstanceImporter:
         texture: {instanceID: 0}
     - name: Size
       value:
-        scalar[0]: .25
+        scalar[0]: .0299999993
         scalar[1]: .25
         scalar[2]: 0
         scalar[3]: 0
         texture: {instanceID: 0}
     - name: Aperture
       value:
-        scalar[0]: .5
+        scalar[0]: 1
         scalar[1]: 0
         scalar[2]: 0
         scalar[3]: 0
@@ -87,63 +87,63 @@ SubstanceImporter:
         texture: {instanceID: 0}
     - name: Stains
       value:
-        scalar[0]: 1
+        scalar[0]: .790000021
         scalar[1]: 0
         scalar[2]: 0
         scalar[3]: 0
         texture: {instanceID: 0}
     - name: Veins
       value:
-        scalar[0]: .5
+        scalar[0]: 1
         scalar[1]: 0
         scalar[2]: 0
         scalar[3]: 0
         texture: {instanceID: 0}
     - name: Red_Eyes
       value:
-        scalar[0]: .5
+        scalar[0]: 1
         scalar[1]: 0
         scalar[2]: 0
         scalar[3]: 0
         texture: {instanceID: 0}
     - name: Cataract
       value:
-        scalar[0]: .0500000007
+        scalar[0]: .699999988
         scalar[1]: 0
         scalar[2]: 0
         scalar[3]: 0
         texture: {instanceID: 0}
     - name: Center_Color
       value:
-        scalar[0]: .360783994
-        scalar[1]: .427451015
-        scalar[2]: .549019992
+        scalar[0]: 1
+        scalar[1]: 0
+        scalar[2]: .310344696
         scalar[3]: 0
         texture: {instanceID: 0}
     - name: Middle_Line_Color
       value:
-        scalar[0]: .69799298
-        scalar[1]: .705897987
-        scalar[2]: .592203021
+        scalar[0]: 0
+        scalar[1]: .710344791
+        scalar[2]: 1
         scalar[3]: 0
         texture: {instanceID: 0}
     - name: Border_Color
       value:
-        scalar[0]: .458793014
-        scalar[1]: .545098007
-        scalar[2]: 1
+        scalar[0]: 0
+        scalar[1]: .625
+        scalar[2]: .159482658
         scalar[3]: 0
         texture: {instanceID: 0}
     - name: Stains_Color
       value:
-        scalar[0]: .49019599
-        scalar[1]: .427497
-        scalar[2]: .290196002
+        scalar[0]: .944827676
+        scalar[1]: 1
+        scalar[2]: 0
         scalar[3]: 0
         texture: {instanceID: 0}
     materialInformation:
       serializedVersion: 5
-      offset: {x: 0, y: 0}
+      offset: {x: 9, y: 0}
       scale: {x: 1, y: 1}
       generateMipmaps: 1
       generateAllOutputs: 0
@@ -157,14 +157,14 @@ SubstanceImporter:
           second:
             texture: {instanceID: 0}
             scale: {x: 1, y: 1}
-            offset: {x: 0, y: 0}
+            offset: {x: 9, y: 0}
         data:
           first:
             name: _BumpMap
           second:
             texture: {instanceID: 0}
             scale: {x: 1, y: 1}
-            offset: {x: 0, y: 0}
+            offset: {x: 2, y: 0}
       floats:
         data:
           first:

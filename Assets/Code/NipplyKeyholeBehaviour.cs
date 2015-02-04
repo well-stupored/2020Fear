@@ -4,16 +4,24 @@ namespace Assets.Code
 {
     public class NipplyKeyholeBehaviour : MonoBehaviour
     {
-        private DoorBehaviour _wall;
+        private ActivatableObjectBehaviour _object;
+        private Transform _playerTransform;
 
         public void Awake()
         {
-            _wall = GetComponentInParent<DoorBehaviour>();
+            _object = GetComponentInParent<ActivatableObjectBehaviour>();
+            _playerTransform = GameObject.FindGameObjectWithTag("player").transform;
         }
 
         public void ApplyFreeze(float amountOfFreeze)
         {
-            _wall.transform.position -= new Vector3(0, -amountOfFreeze, 0);
+            _object.Activate();
+        }
+
+        public void Update()
+        {
+            transform.LookAt(_playerTransform);
+            transform.Rotate(Vector3.up, 270);
         }
     }
 }

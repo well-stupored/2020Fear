@@ -25,6 +25,8 @@ namespace Assets.Code
         {
 			Screen.lockCursor = true;
             Screen.showCursor = false;
+
+            _ui.FlashlightImage.transform.localScale = new Vector2(Screen.width / 1600f, Screen.height / 900f);
         }
 
         // Update is called once per frame
