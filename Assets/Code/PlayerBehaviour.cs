@@ -6,6 +6,9 @@ namespace Assets.Code
     [RequireComponent (typeof(CharacterController))]
     public class PlayerBehaviour : MonoBehaviour
     {
+		//For Spawning
+		public MazeGenerator Maze;
+
         public GameObject FreezyBreezePrefab;
         public float Speed = 5;
         public Quaternion AimDirection = Quaternion.identity;
@@ -23,6 +26,10 @@ namespace Assets.Code
 
         public void Start()
         {
+			//Place on an open spot
+			Vector3 temp = Maze.GetRandomOpenPosition();
+			this.transform.position = new Vector3(temp.x, this.transform.position.y, temp.z);
+
             Screen.lockCursor = true;
             Screen.showCursor = false;
         }

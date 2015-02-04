@@ -4,13 +4,12 @@ using System.Collections.Generic;
 
 public class MazeGenerator : MonoBehaviour
 {
-
     public GameObject Wall;
 
     public int MazeDimension;
     public float GrindSpacing;
 
-    public struct MazeSpot
+    struct MazeSpot
     {
         public Transform Spot;
         public bool IsWall;
@@ -18,8 +17,9 @@ public class MazeGenerator : MonoBehaviour
     }
 
     List<Coord> Walls = new List<Coord>();
+	List<Vector3> OpenSpaces = new List<Vector3>();
 
-    public struct Coord
+    struct Coord
     {
         public int x;
         public int y;
@@ -35,8 +35,14 @@ public class MazeGenerator : MonoBehaviour
         }
     }
 
-    public MazeSpot[,] Maze;
+    MazeSpot[,] Maze;
 
+	public Vector3 GetRandomOpenPosition()
+	{
+		int temp = Random.Range (0, OpenSpaces.Count);
+
+		return OpenSpaces [temp];
+	}
 
     // Use this for initialization
     void Start()
@@ -73,6 +79,10 @@ public class MazeGenerator : MonoBehaviour
                     temp = Instantiate(Wall, Maze[i, j].Spot.position, Quaternion.identity) as GameObject;
                     temp.transform.parent = transform;
                 }
+				else
+				{
+					OpenSpaces.Add(Maze[i,j].Spot.position);
+				}
             }
         }
     }
