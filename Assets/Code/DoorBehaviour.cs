@@ -3,49 +3,48 @@
 namespace Assets.Code
 {
     [RequireComponent(typeof(Collider))]
-    public class DoorBehaviour : MonoBehaviour
+    public class DoorBehaviour : ActivatableObjectBehaviour
     {
-        public float LerpSpeed = 1f;
-        public float FallSpeed = 1f;
+        public float Speed = 1f;
+        public float ShakeScale = 1f;
+        public float MaximumShake = 0.1f;
 
         private Vector3 _basePosition;
-
-        private Vector3 _oldPosition;
-        private Vector3 _targetPosition;
-        private float _lerpyProgress;
+        private Vector3 _technicalPosition;
+        private float _shakeAmount;
 
         public void Start()
         {
             AstarPath.active.UpdateGraphs(collider.bounds);
 
             _basePosition = transform.position;
-            _oldPosition = transform.position;
-            _targetPosition = transform.position;
-            _lerpyProgress = 0f;
+            _technicalPosition = transform.position;
+            _shakeAmount = 0f;
         }
 
-        public void RaiseWall(float amountToRaise)
+        public override void Activate()
         {
-            _targetPosition = transform.position + new Vector3(0, amountToRaise, 0);
-            if (_targetPosition.y < _basePosition.y)
-                _targetPosition = _basePosition;
-
-            _lerpyProgress = LerpSpeed;
+            _technicalPosition += new Vector3(0, Speed * Time.deltaTime * 3, 0);
+            _shakeAmount += ShakeScale*Time.deltaTime;
         }
 
         public void Update()
         {
-            // move ourselves down if we're higher than base
-            if(_targetPosition.y > _basePosition.y)
-                RaiseWall(-Time.deltaTime * FallSpeed);
+            _shakeAmount -= Time.deltaTime;
+            if (_shakeAmount < 0) _shakeAmount = 0;
 
-            if (_lerpyProgress > 0)
+            // move ourselves down if we're higher than base
+            if (transform.position.y > _basePosition.y)
             {
-                _lerpyProgress -= Time.deltaTime;
-                transform.position = Vector3.Lerp(_oldPosition, _targetPosition, _lerpyProgress);
-                if (_lerpyProgress <= 0)
-                    _oldPosition = _targetPosition;
+                _technicalPosition -= new Vector3(0, Speed*Time.deltaTime, 0);
+                _shakeAmount += ShakeScale*Time.deltaTime;
             }
+
+            if (_shakeAmount > MaximumShake)
+                _shakeAmount = MaximumShake;
+
+            transform.position = _technicalPosition + new Vector3(Random.Range(-_shakeAmount, _shakeAmount), 0,
+                                                                  Random.Range(-_shakeAmount, _shakeAmount));
         }
     }
 }
