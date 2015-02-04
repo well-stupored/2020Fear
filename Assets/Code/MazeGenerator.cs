@@ -100,10 +100,10 @@ public class MazeGenerator : MonoBehaviour
             {
                 if(Maze[i,j].IsWall == true)
                 {
-                    int ChoosenOne = Random.Range(0, WallPrefabs.Length);
+                    var choozinJuan = Random.Range(0, WallPrefabs.Length);
 
                     GameObject temp;
-                    temp = Instantiate(WallPrefabs[ChoosenOne], Maze[i, j].Spot.position, Quaternion.identity) as GameObject;
+                    temp = Instantiate(WallPrefabs[choozinJuan], Maze[i, j].Spot.position, Quaternion.identity) as GameObject;
                     temp.transform.parent = transform;
                 }
 				else
@@ -248,7 +248,7 @@ public class MazeGenerator : MonoBehaviour
     {
         for(int i = 0; i < Walls.Count; i++)
         {
-            if(Maze[Walls[i].x, Walls[i].y].Touched == true)
+            if(Maze[Walls[i].x, Walls[i].y].Touched)
             {//remove it from the list
                 Walls.RemoveAt(i);
                 i--;
