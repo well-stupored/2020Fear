@@ -622,7 +622,7 @@ public class AstarPath : MonoBehaviour {
 		if (logPathResults == PathLog.InGame) {
 			inGameDebugPath = debug;
 		} else {
-			Debug.Log (debug);
+			//Debug.Log (debug);
 		}
 	}
 	
@@ -1817,7 +1817,7 @@ public class AstarPath : MonoBehaviour {
 		
 		System.GC.Collect ();
 		
-		AstarLog ("Scanning - Process took "+(lastScanTime*1000).ToString ("0")+" ms to complete");
+		//AstarLog ("Scanning - Process took "+(lastScanTime*1000).ToString ("0")+" ms to complete");
 		
 	}
 	

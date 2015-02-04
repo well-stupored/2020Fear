@@ -110,11 +110,19 @@ namespace Assets.Code
             RaycastHit hit;
             if (Physics.Raycast(transform.position, target.position - transform.position, out hit))
             {
-                Debug.Log("raycast hit : " + hit.collider.tag);
+//Debug.Log("raycast hit : " + hit.collider.tag);
                 return hit.collider.tag == "player";
             }
 
             return false;
+        }
+
+        public void RendPlayer ()
+        {
+            if (_currentFreeze <= 0)
+            {
+                Debug.Log("Player is dead!");
+            }
         }
     }
 }
