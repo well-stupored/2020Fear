@@ -6,9 +6,6 @@ namespace Assets.Code
     [RequireComponent (typeof(CharacterController))]
     public class PlayerBehaviour : MonoBehaviour
     {
-		//For Spawning
-		public MazeGenerator Maze;
-
         public GameObject FreezyBreezePrefab;
         public float Speed = 5;
         public Quaternion AimDirection = Quaternion.identity;
@@ -26,18 +23,14 @@ namespace Assets.Code
 
         public void Start()
         {
-			//Place on an open spot
-			Vector3 temp = Maze.GetRandomOpenPosition();
-			this.transform.position = new Vector3(temp.x, this.transform.position.y, temp.z);
-
-            Screen.lockCursor = true;
+			Screen.lockCursor = true;
             Screen.showCursor = false;
         }
 
         // Update is called once per frame
         public void Update ()
         {
-            var targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
+			var targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
 	        _controller.SimpleMove(transform.TransformDirection(targetVelocity * Speed));
 
             if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();

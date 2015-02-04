@@ -6,9 +6,6 @@ namespace Assets.Code
     [RequireComponent (typeof(CharacterController)), RequireComponent (typeof(Seeker))]
     public class EnemyBehaviour : AIPath
     {
-		//For Spawning
-		public MazeGenerator Maze;
-
         public float WanderSpeed = 5f;
         public float ChaseSpeed = 50f;
 
@@ -38,11 +35,7 @@ namespace Assets.Code
 
         public new void Start()
         {
-			//Place on an open spot
-			Vector3 temp = Maze.GetRandomOpenPosition();
-			this.transform.position = new Vector3(temp.x, this.transform.position.y, temp.z);
-            
-			var playerObject = GameObject.FindGameObjectWithTag("player");
+         	var playerObject = GameObject.FindGameObjectWithTag("player");
             target = playerObject.transform;
 
             _currentFreeze = MaxFreeze;

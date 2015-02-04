@@ -16,6 +16,11 @@ namespace Assets.Code
         private float _cameraXRotation;
         private float _cameraYRotation;
 
+		void Start()
+		{
+			_cameraXRotation = 211;
+		}
+
         public void Update()
         {
             if (TargetPlayer == null) return;
