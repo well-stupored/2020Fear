@@ -169,7 +169,7 @@ SubstanceImporter:
     - name: Shutter_01_Diffuse
       alphaSource: 5
       filterMode: 1
-      aniso: 1
+      aniso: 16
       wrapMode: 0
     - name: Shutter_01_Specular
       alphaSource: 0
@@ -179,7 +179,7 @@ SubstanceImporter:
     - name: Shutter_01_Normal
       alphaSource: 0
       filterMode: 1
-      aniso: 1
+      aniso: 16
       wrapMode: 0
     textureAssignments:
     - shaderProp:

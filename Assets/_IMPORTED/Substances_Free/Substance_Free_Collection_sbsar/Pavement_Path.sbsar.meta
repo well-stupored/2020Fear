@@ -155,7 +155,7 @@ SubstanceImporter:
     - name: Pavement_Path_Diffuse
       alphaSource: 5
       filterMode: 1
-      aniso: 1
+      aniso: 16
       wrapMode: 0
     - name: Pavement_Path_Specular
       alphaSource: 0
@@ -165,7 +165,7 @@ SubstanceImporter:
     - name: Pavement_Path_Normal
       alphaSource: 0
       filterMode: 1
-      aniso: 1
+      aniso: 16
       wrapMode: 0
     textureAssignments:
     - shaderProp:
