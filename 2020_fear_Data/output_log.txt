@@ -20,7 +20,7 @@ Platform assembly: C:\Projects\2020_fear\2020_fear_Data\Managed\Pathfinding.Ioni
 Loading C:\Projects\2020_fear\2020_fear_Data\Managed\Pathfinding.Ionic.Zip.Reduced.dll into Unity Child Domain
 Platform assembly: C:\Projects\2020_fear\2020_fear_Data\Managed\Pathfinding.JsonFx.dll (this message is harmless)
 Loading C:\Projects\2020_fear\2020_fear_Data\Managed\Pathfinding.JsonFx.dll into Unity Child Domain
-- Completed reload, in  0.277 seconds
+- Completed reload, in  0.057 seconds
 desktop: 2880x1800 60Hz; virtual: 2880x1800 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.

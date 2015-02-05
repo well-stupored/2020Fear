@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class MazeGenerator : MonoBehaviour
@@ -7,8 +6,7 @@ public class MazeGenerator : MonoBehaviour
     public GameObject[] WallPrefabs;
 
     public GameObject[] SpecailWalls;
-
-    public int AmountOfSpecailWalls;
+    public float ChanceForSpezcuialVValltz;
 
     public Vector2 TopLeftOfOpenArea;
     public int OpenAreaDemention;
@@ -85,7 +83,7 @@ public class MazeGenerator : MonoBehaviour
             {
                 Maze[i, j].Spot = new GameObject("Wall Grid").transform;
                 Maze[i, j].Spot.transform.parent = transform;
-                Maze[i, j].Spot.position = new Vector3(this.transform.position.x + i * GrindSpacing, 0, this.transform.position.z + j * GrindSpacing);
+                Maze[i, j].Spot.position = new Vector3(transform.position.x + i * GrindSpacing, 0, transform.position.z + j * GrindSpacing);
                 Maze[i, j].IsWall = true;
                 Maze[i, j].Touched = false;
             }
@@ -98,12 +96,15 @@ public class MazeGenerator : MonoBehaviour
         {
             for (int j = 0; j < MazeDimension; j++)
             {
-                if(Maze[i,j].IsWall == true)
+                if(Maze[i,j].IsWall)
                 {
-                    var choozinJuan = Random.Range(0, WallPrefabs.Length);
+                    // we get a random platonic (only acceptable if we aren't on an edge
+                    var platonic = (Random.Range(0.0f, 1.0f) < ChanceForSpezcuialVValltz &&
+                                    i != 0 && i != 1 && j != 0 && j != 1 && i != Maze.GetLength(0) - 1 && j != Maze.GetLength(1) - 1)
+                                            ? SpecailWalls[Random.Range(0, SpecailWalls.Length)]
+                                            : WallPrefabs [Random.Range(0, WallPrefabs.Length )];
 
-                    GameObject temp;
-                    temp = Instantiate(WallPrefabs[choozinJuan], Maze[i, j].Spot.position, Quaternion.identity) as GameObject;
+                    var temp = Instantiate(platonic, Maze[i, j].Spot.position, Quaternion.identity) as GameObject;
                     temp.transform.parent = transform;
                 }
 				else
@@ -115,18 +116,6 @@ public class MazeGenerator : MonoBehaviour
 					OpenSpaces.Add(Maze[i,j].Spot.position);
 				}
             }
-        }
-
-        for (int i =0; i < AmountOfSpecailWalls; i ++)
-        {
-            if (SpecailWalls.Length == 0 || OpenSpaces.Count == 0)
-                continue;
-
-            int ChoosenOne = Random.Range(0, SpecailWalls.Length - 1);
-
-            GameObject temp;
-            temp = Instantiate(SpecailWalls[ChoosenOne], GetRandomOpenPositionAndRemove(), Quaternion.identity) as GameObject;
-            temp.transform.parent = transform;
         }
     }
 

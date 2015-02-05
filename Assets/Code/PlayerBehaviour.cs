@@ -13,7 +13,6 @@ namespace Assets.Code
 
         private GazePointDataComponent _gazePoint;
         private UiLinkerBehaviour _ui;
-        private CharacterController _controller;
 
         // Vars for smoothing the gaze point / averaging
         private const int NumOfPointsToAvg = 100;
@@ -26,7 +25,6 @@ namespace Assets.Code
         {
             _gazePoint = GetComponent<GazePointDataComponent>();
             _ui = GameObject.FindGameObjectWithTag("ui_linker").GetComponent<UiLinkerBehaviour>();
-            _controller = GetComponent<CharacterController>();
             _gazePoints = new List<Vector2>();
             for (var i = 0; i < NumOfPointsToAvg; i++)
                 _gazePoints.Add(new Vector2(Screen.width / 2f, Screen.height / 2f));
@@ -39,6 +37,9 @@ namespace Assets.Code
             Screen.showCursor = false;
 
             _ui.FlashlightImage.transform.localScale = new Vector2(Screen.width / 1600f, Screen.height / 900f);
+
+            _ui.FlashlightImage.transform.position = new Vector2(0,0);
+            _ui.CrosshairImage.transform.position = new Vector2(0,0);
         }
 
         // Update is called once per frame

@@ -5,12 +5,12 @@ namespace Assets.Code
     public class NipplyKeyholeBehaviour : MonoBehaviour
     {
         private ActivatableObjectBehaviour _object;
-        private Transform _playerTransform;
+        private Transform _targetTransform;
 
         public void Awake()
         {
             _object = GetComponentInParent<ActivatableObjectBehaviour>();
-            _playerTransform = GameObject.FindGameObjectWithTag("player").transform;
+            _targetTransform = Camera.main.transform;
         }
 
         public void ApplyFreeze(float amountOfFreeze)
@@ -20,8 +20,7 @@ namespace Assets.Code
 
         public void Update()
         {
-            transform.LookAt(_playerTransform);
-            transform.Rotate(Vector3.up, 270);
+            transform.LookAt(_targetTransform);
         }
     }
 }

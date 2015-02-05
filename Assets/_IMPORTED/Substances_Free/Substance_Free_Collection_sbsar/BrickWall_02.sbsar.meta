@@ -73,42 +73,42 @@ SubstanceImporter:
         texture: {instanceID: 0}
     - name: Normal
       value:
-        scalar[0]: .5
+        scalar[0]: .389999986
         scalar[1]: 0
         scalar[2]: 0
         scalar[3]: 0
         texture: {instanceID: 0}
     - name: Age
       value:
-        scalar[0]: .25
+        scalar[0]: .280000001
         scalar[1]: 0
         scalar[2]: 0
         scalar[3]: 0
         texture: {instanceID: 0}
     - name: Depth
       value:
-        scalar[0]: 0
+        scalar[0]: 1
         scalar[1]: 0
         scalar[2]: 0
         scalar[3]: 0
         texture: {instanceID: 0}
     - name: Bricks_X
       value:
-        scalar[0]: 10
+        scalar[0]: 5
         scalar[1]: 0
         scalar[2]: 0
         scalar[3]: 0
         texture: {instanceID: 0}
     - name: Bricks_Y
       value:
-        scalar[0]: 26
+        scalar[0]: 12.3999996
         scalar[1]: 0
         scalar[2]: 0
         scalar[3]: 0
         texture: {instanceID: 0}
     - name: Relief_Balance
       value:
-        scalar[0]: 32
+        scalar[0]: 25.8999996
         scalar[1]: 0
         scalar[2]: 0
         scalar[3]: 0
@@ -135,13 +135,13 @@ SubstanceImporter:
             name: _BumpMap
           second:
             texture: {instanceID: 0}
-            scale: {x: 1, y: 1}
+            scale: {x: 1, y: 5}
             offset: {x: 0, y: 0}
       floats:
         data:
           first:
             name: _Shininess
-          second: .078125
+          second: .12016502
       colors:
         data:
           first:

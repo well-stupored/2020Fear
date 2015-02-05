@@ -8,6 +8,7 @@ namespace Assets.Code
         public float Speed = 1f;
         public float ShakeScale = 1f;
         public float MaximumShake = 0.1f;
+        public bool GoesUp;
 
         private Vector3 _basePosition;
         private Vector3 _technicalPosition;
@@ -24,7 +25,8 @@ namespace Assets.Code
 
         public override void Activate()
         {
-            _technicalPosition += new Vector3(0, Speed * Time.deltaTime * 3, 0);
+            var delta = new Vector3(0, Speed*Time.deltaTime*3, 0);
+            _technicalPosition += delta * (GoesUp ? 1f : -1f);
             _shakeAmount += ShakeScale*Time.deltaTime;
         }
 
@@ -34,9 +36,11 @@ namespace Assets.Code
             if (_shakeAmount < 0) _shakeAmount = 0;
 
             // move ourselves down if we're higher than base
-            if (transform.position.y > _basePosition.y)
+            if ((GoesUp && transform.position.y > _basePosition.y) ||
+               (!GoesUp && transform.position.y < _basePosition.y))
             {
-                _technicalPosition -= new Vector3(0, Speed*Time.deltaTime, 0);
+                var delta = new Vector3(0, Speed*Time.deltaTime, 0);
+                _technicalPosition -= delta*(GoesUp ? 1f : -1f);
                 _shakeAmount += ShakeScale*Time.deltaTime;
             }
 
