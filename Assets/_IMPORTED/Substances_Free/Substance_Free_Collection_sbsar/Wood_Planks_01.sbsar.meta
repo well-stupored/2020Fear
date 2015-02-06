@@ -24,14 +24,14 @@ SubstanceImporter:
         texture: {instanceID: 0}
     - name: $randomseed
       value:
-        scalar[0]: 0
+        scalar[0]: 7605
         scalar[1]: 0
         scalar[2]: 0
         scalar[3]: 0
         texture: {instanceID: 0}
     - name: Boards
       value:
-        scalar[0]: 8
+        scalar[0]: 8.14000034
         scalar[1]: 0
         scalar[2]: 0
         scalar[3]: 0
