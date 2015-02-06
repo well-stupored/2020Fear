@@ -566,13 +566,13 @@ public class AstarPath : MonoBehaviour {
 	 */
 	private void OnGUI () {
 		
-		if (logPathResults == PathLog.InGame) {
+        //if (logPathResults == PathLog.InGame) {
 			
-			if (inGameDebugPath != "") {
+        //    if (inGameDebugPath != "") {
 						
-				GUI.Label (new Rect (5,5,400,600),inGameDebugPath);
-			}
-		}
+        //        GUI.Label (new Rect (5,5,400,600),inGameDebugPath);
+        //    }
+        //}
 		
 		/*if (GUI.Button (new Rect (Screen.width-100,5,100,20),"Load New Level")) {
 			Application.LoadLevel (0);

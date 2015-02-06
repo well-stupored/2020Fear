@@ -230,134 +230,134 @@ public class AstarDebugger : MonoBehaviour {
 	
 	
 	public void OnGUI () {
-		if (!show || (!Application.isPlaying && !showInEditor)) return;
+        //if (!show || (!Application.isPlaying && !showInEditor)) return;
 		
-		if (style == null) {
-			style = new GUIStyle();
-			style.normal.textColor = Color.white;
-			style.padding = new RectOffset (5,5,5,5);
-		}
+        //if (style == null) {
+        //    style = new GUIStyle();
+        //    style.normal.textColor = Color.white;
+        //    style.padding = new RectOffset (5,5,5,5);
+        //}
 		
-		if (Time.realtimeSinceStartup - lastUpdate > 0.5f || cachedText == null || !Application.isPlaying) {
-			lastUpdate = Time.realtimeSinceStartup;
+        //if (Time.realtimeSinceStartup - lastUpdate > 0.5f || cachedText == null || !Application.isPlaying) {
+        //    lastUpdate = Time.realtimeSinceStartup;
 			
-			boxRect = new Rect (5,yOffset,310,40);
+        //    boxRect = new Rect (5,yOffset,310,40);
 			
-			text.Length = 0;
-			text.AppendLine ("A* Pathfinding Project Debugger");
-			text.Append ("A* Version: ").Append (AstarPath.Version.ToString ());
+        //    text.Length = 0;
+        //    text.AppendLine ("A* Pathfinding Project Debugger");
+        //    text.Append ("A* Version: ").Append (AstarPath.Version.ToString ());
 			
-			if (showMemProfile) {
-				boxRect.height += 200;
+        //    if (showMemProfile) {
+        //        boxRect.height += 200;
 				
-				text.AppendLine();
-				text.AppendLine();
-				text.Append ("Currently allocated".PadRight (25));
-				text.Append ((allocMem/1000000F).ToString ("0.0 MB"));
-				text.AppendLine ();
+        //        text.AppendLine();
+        //        text.AppendLine();
+        //        text.Append ("Currently allocated".PadRight (25));
+        //        text.Append ((allocMem/1000000F).ToString ("0.0 MB"));
+        //        text.AppendLine ();
 				
-				text.Append ("Peak allocated".PadRight (25));
-				text.Append ((peakAlloc/1000000F).ToString ("0.0 MB")).AppendLine();
+        //        text.Append ("Peak allocated".PadRight (25));
+        //        text.Append ((peakAlloc/1000000F).ToString ("0.0 MB")).AppendLine();
 
-				text.Append ("Last collect peak".PadRight(25));
-				text.Append ((collectAlloc/1000000F).ToString ("0.0 MB")).AppendLine();
+        //        text.Append ("Last collect peak".PadRight(25));
+        //        text.Append ((collectAlloc/1000000F).ToString ("0.0 MB")).AppendLine();
 				
 				
-				text.Append ("Allocation rate".PadRight (25));
-				text.Append ((allocRate/1000000F).ToString ("0.0 MB")).AppendLine();
+        //        text.Append ("Allocation rate".PadRight (25));
+        //        text.Append ((allocRate/1000000F).ToString ("0.0 MB")).AppendLine();
 				
-				text.Append ("Collection frequency".PadRight (25));
-				text.Append (delta.ToString ("0.00"));
-				text.Append ("s\n");
+        //        text.Append ("Collection frequency".PadRight (25));
+        //        text.Append (delta.ToString ("0.00"));
+        //        text.Append ("s\n");
 				
-				text.Append ("Last collect fps".PadRight (25));
-				text.Append ((1F/lastDeltaTime).ToString ("0.0 fps"));
-				text.Append (" (");
-				text.Append (lastDeltaTime.ToString ("0.000 s"));
-				text.Append (")");
-			}
+        //        text.Append ("Last collect fps".PadRight (25));
+        //        text.Append ((1F/lastDeltaTime).ToString ("0.0 fps"));
+        //        text.Append (" (");
+        //        text.Append (lastDeltaTime.ToString ("0.000 s"));
+        //        text.Append (")");
+        //    }
 			
-			if (showFPS) {
-				text.AppendLine ();
-				text.AppendLine();
-				text.Append ("FPS".PadRight (25)).Append((1F/delayedDeltaTime).ToString ("0.0 fps"));
+        //    if (showFPS) {
+        //        text.AppendLine ();
+        //        text.AppendLine();
+        //        text.Append ("FPS".PadRight (25)).Append((1F/delayedDeltaTime).ToString ("0.0 fps"));
 				
 				
-				float minFps = Mathf.Infinity;
+        //        float minFps = Mathf.Infinity;
 				
-				for (int i=0;i<fpsDrops.Length;i++) if (fpsDrops[i] < minFps) minFps = fpsDrops[i];
+        //        for (int i=0;i<fpsDrops.Length;i++) if (fpsDrops[i] < minFps) minFps = fpsDrops[i];
 				
-				text.AppendLine();
-				text.Append (("Lowest fps (last " + fpsDrops.Length + ")").PadRight(25)).Append(minFps.ToString ("0.0"));
-			}
+        //        text.AppendLine();
+        //        text.Append (("Lowest fps (last " + fpsDrops.Length + ")").PadRight(25)).Append(minFps.ToString ("0.0"));
+        //    }
 			
-			if (showPathProfile) {
-				AstarPath astar = AstarPath.active;
+        //    if (showPathProfile) {
+        //        AstarPath astar = AstarPath.active;
 				
-				text.AppendLine ();
+        //        text.AppendLine ();
 				
-				if (astar == null) {
-					text.Append ("\nNo AstarPath Object In The Scene");
-				} else {
+        //        if (astar == null) {
+        //            text.Append ("\nNo AstarPath Object In The Scene");
+        //        } else {
 					
-					if (Pathfinding.Util.ListPool<Vector3>.GetSize() > maxVecPool) maxVecPool = Pathfinding.Util.ListPool<Vector3>.GetSize();
-					if (Pathfinding.Util.ListPool<Pathfinding.GraphNode>.GetSize() > maxNodePool) maxNodePool = Pathfinding.Util.ListPool<Pathfinding.GraphNode>.GetSize();
+        //            if (Pathfinding.Util.ListPool<Vector3>.GetSize() > maxVecPool) maxVecPool = Pathfinding.Util.ListPool<Vector3>.GetSize();
+        //            if (Pathfinding.Util.ListPool<Pathfinding.GraphNode>.GetSize() > maxNodePool) maxNodePool = Pathfinding.Util.ListPool<Pathfinding.GraphNode>.GetSize();
 					
-					text.Append ("\nPool Sizes (size/total created)");
+        //            text.Append ("\nPool Sizes (size/total created)");
 					
-					for (int i=0;i<debugTypes.Length;i++) {
-						debugTypes[i].Print (text);
-					}
-				}
-			}
+        //            for (int i=0;i<debugTypes.Length;i++) {
+        //                debugTypes[i].Print (text);
+        //            }
+        //        }
+        //    }
 			
-			cachedText = text.ToString();
-		}
+        //    cachedText = text.ToString();
+        //}
 		
 		
-		if (font != null) {
-			style.font = font;
-			style.fontSize = fontSize;
-		}
+        //if (font != null) {
+        //    style.font = font;
+        //    style.fontSize = fontSize;
+        //}
 		
-		boxRect.height = style.CalcHeight (new GUIContent (cachedText),boxRect.width);
+        //boxRect.height = style.CalcHeight (new GUIContent (cachedText),boxRect.width);
 		
-		GUI.Box (boxRect,"");
-		GUI.Label (boxRect,cachedText,style);
+        //GUI.Box (boxRect,"");
+        //GUI.Label (boxRect,cachedText,style);
 		
-		if (showGraph) {
+        //if (showGraph) {
 			
 			
-			float minMem = float.PositiveInfinity, maxMem = 0, minFPS = float.PositiveInfinity, maxFPS = 0;
-			for (int i=0;i<graph.Length;i++) {
-				minMem = Mathf.Min (graph[i].memory, minMem);
-				maxMem = Mathf.Max (graph[i].memory, maxMem);
-				minFPS = Mathf.Min (graph[i].fps, minFPS);
-				maxFPS = Mathf.Max (graph[i].fps, maxFPS);
-			}
+        //    float minMem = float.PositiveInfinity, maxMem = 0, minFPS = float.PositiveInfinity, maxFPS = 0;
+        //    for (int i=0;i<graph.Length;i++) {
+        //        minMem = Mathf.Min (graph[i].memory, minMem);
+        //        maxMem = Mathf.Max (graph[i].memory, maxMem);
+        //        minFPS = Mathf.Min (graph[i].fps, minFPS);
+        //        maxFPS = Mathf.Max (graph[i].fps, maxFPS);
+        //    }
 			
-			float line;
-			GUI.color = Color.blue;
-			//Round to nearest x.x MB
-			line = Mathf.RoundToInt (maxMem/(100.0f*1000)); // *1000*100
-			GUI.Label (new Rect (5, Screen.height - AstarMath.MapTo (minMem, maxMem, 0 + graphOffset, graphHeight + graphOffset, line*1000*100) - 10, 100,20), (line/10.0f).ToString("0.0 MB"));
-			
-			
-			
-			line = Mathf.Round (minMem/(100.0f*1000)); // *1000*100
-			GUI.Label (new Rect (5, Screen.height - AstarMath.MapTo (minMem, maxMem, 0 + graphOffset, graphHeight + graphOffset, line*1000*100) - 10, 100,20), (line/10.0f).ToString("0.0 MB"));
-			
-			
-			GUI.color = Color.green;
-			//Round to nearest x.x MB
-			line = Mathf.Round (maxFPS); // *1000*100
-			GUI.Label (new Rect (55, Screen.height - AstarMath.MapTo (minFPS, maxFPS, 0 + graphOffset, graphHeight + graphOffset, line) - 10, 100,20), (line).ToString("0 FPS"));
+        //    float line;
+        //    GUI.color = Color.blue;
+        //    //Round to nearest x.x MB
+        //    line = Mathf.RoundToInt (maxMem/(100.0f*1000)); // *1000*100
+        //    GUI.Label (new Rect (5, Screen.height - AstarMath.MapTo (minMem, maxMem, 0 + graphOffset, graphHeight + graphOffset, line*1000*100) - 10, 100,20), (line/10.0f).ToString("0.0 MB"));
 			
 			
 			
-			line = Mathf.Round (minFPS); // *1000*100
-			GUI.Label (new Rect (55, Screen.height - AstarMath.MapTo (minFPS, maxFPS, 0 + graphOffset, graphHeight + graphOffset, line) - 10, 100,20), (line).ToString("0 FPS"));
-		}
+        //    line = Mathf.Round (minMem/(100.0f*1000)); // *1000*100
+        //    GUI.Label (new Rect (5, Screen.height - AstarMath.MapTo (minMem, maxMem, 0 + graphOffset, graphHeight + graphOffset, line*1000*100) - 10, 100,20), (line/10.0f).ToString("0.0 MB"));
+			
+			
+        //    GUI.color = Color.green;
+        //    //Round to nearest x.x MB
+        //    line = Mathf.Round (maxFPS); // *1000*100
+        //    GUI.Label (new Rect (55, Screen.height - AstarMath.MapTo (minFPS, maxFPS, 0 + graphOffset, graphHeight + graphOffset, line) - 10, 100,20), (line).ToString("0 FPS"));
+			
+			
+			
+        //    line = Mathf.Round (minFPS); // *1000*100
+        //    GUI.Label (new Rect (55, Screen.height - AstarMath.MapTo (minFPS, maxFPS, 0 + graphOffset, graphHeight + graphOffset, line) - 10, 100,20), (line).ToString("0 FPS"));
+        //}
 	}
 }
 
