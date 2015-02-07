@@ -6,7 +6,13 @@ public class MazeGenerator : MonoBehaviour
     public GameObject[] WallPrefabs;
 
     public GameObject[] SpecailWalls;
-    public float ChanceForSpezcuialVValltz;
+
+	//These should never block the path!!!
+	public GameObject[] Ob_sickles;
+    
+	public float ChanceForSpezcuialVValltz;
+
+	public int AmountofAwsomenessOb_sickles;
 
     public Vector2 TopLeftOfOpenArea;
     public int OpenAreaDemention;
@@ -117,6 +123,19 @@ public class MazeGenerator : MonoBehaviour
 				}
             }
         }
+
+		for (int i = 0; i < AmountofAwsomenessOb_sickles; i ++)
+		{
+			if(Ob_sickles.Length == 0 || OpenSpaces.Count == 0)
+				continue;
+
+			int ChoooooosinWone = Random.Range(0, Ob_sickles.Length);
+
+			GameObject temp;
+			temp = Instantiate(Ob_sickles[ChoooooosinWone], GetRandomOpenPositionAndRemove(), Quaternion.identity) as GameObject;
+			temp.transform.parent = transform;
+		}
+
     }
 
     void MakeMaze()

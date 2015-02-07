@@ -80,7 +80,7 @@ namespace Assets.Code
             _finalGazePoint = Vector2.Lerp(_finalGazePoint, _avgGazePoint, 0.2f);
 
             if (Input.GetMouseButton(0))         RaytraceFreeze(new Vector2(Screen.width / 2f, Screen.height / 2f));
-            if(_gazePoint.LastGazePoint.IsValid) RaytraceFreeze(_gazePoint.LastGazePoint.Screen);
+            if(_gazePoint.LastGazePoint.IsValid) RaytraceFreeze(_finalGazePoint);
         }
 
         private void RaytraceFreeze(Vector2 screenPosition)

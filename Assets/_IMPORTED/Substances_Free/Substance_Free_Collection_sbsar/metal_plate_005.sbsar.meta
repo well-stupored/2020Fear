@@ -176,7 +176,7 @@ SubstanceImporter:
     - name: metal_plate_005_Diffuse
       alphaSource: 5
       filterMode: 1
-      aniso: 1
+      aniso: 16
       wrapMode: 0
     - name: metal_plate_005_Specular
       alphaSource: 0
@@ -186,7 +186,7 @@ SubstanceImporter:
     - name: metal_plate_005_Normal
       alphaSource: 0
       filterMode: 1
-      aniso: 1
+      aniso: 16
       wrapMode: 0
     textureAssignments:
     - shaderProp:

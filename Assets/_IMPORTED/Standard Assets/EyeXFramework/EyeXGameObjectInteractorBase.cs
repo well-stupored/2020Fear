@@ -75,14 +75,14 @@ public abstract class EyeXGameObjectInteractorBase : MonoBehaviour
     /// </summary>
     protected virtual void OnGUI()
     {
-        if (showProjectedBounds)
-        {
-            var face = GetProjectedRect();
-            if (face.isValid)
-            {
-                GUI.Box(face.rect, _interactorId);
-            }
-        }
+        //if (showProjectedBounds)
+        //{
+        //    var face = GetProjectedRect();
+        //    if (face.isValid)
+        //    {
+        //        GUI.Box(face.rect, _interactorId);
+        //    }
+        //}
     }
 
     /// <summary>
