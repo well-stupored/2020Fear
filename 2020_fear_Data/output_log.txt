@@ -20,13 +20,17 @@ Platform assembly: C:\Projects\2020_fear\2020_fear_Data\Managed\Pathfinding.Ioni
 Loading C:\Projects\2020_fear\2020_fear_Data\Managed\Pathfinding.Ionic.Zip.Reduced.dll into Unity Child Domain
 Platform assembly: C:\Projects\2020_fear\2020_fear_Data\Managed\Pathfinding.JsonFx.dll (this message is harmless)
 Loading C:\Projects\2020_fear\2020_fear_Data\Managed\Pathfinding.JsonFx.dll into Unity Child Domain
-- Completed reload, in  0.057 seconds
+- Completed reload, in  0.055 seconds
 desktop: 2880x1800 60Hz; virtual: 2880x1800 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 Platform assembly: C:\Projects\2020_fear\2020_fear_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Projects\2020_fear\2020_fear_Data\Managed\System.dll (this message is harmless)
 EyeX is running.
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Player is dead!
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
