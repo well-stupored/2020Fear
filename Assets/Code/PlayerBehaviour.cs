@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Code
 {
     [RequireComponent (typeof(Rigidbody))]
     public class PlayerBehaviour : MonoBehaviour
     {
+        public Camera MainCamera;
         public GameObject FreezyBreezePrefab;
         public float Speed = 5;
         public Quaternion AimDirection = Quaternion.identity;
 
         private GazePointDataComponent _gazePoint;
-        private UiLinkerBehaviour _ui;
+        private Image _crosshairImage;
+        private Image _flashlightImage;
 
         // Vars for smoothing the gaze point / averaging
         private const int NumOfPointsToAvg = 100;
@@ -23,8 +26,11 @@ namespace Assets.Code
 
         public void Awake()
         {
+            _crosshairImage = GameObject.Find("play_canvas").transform.FindChild("crosshair_image").GetComponent<Image>();
+            _flashlightImage = GameObject.Find("play_canvas").transform.FindChild("flashlight_image").GetComponent<Image>();
+
             _gazePoint = GetComponent<GazePointDataComponent>();
-            _ui = GameObject.FindGameObjectWithTag("ui_linker").GetComponent<UiLinkerBehaviour>();
+
             _gazePoints = new List<Vector2>();
             for (var i = 0; i < NumOfPointsToAvg; i++)
                 _gazePoints.Add(new Vector2(Screen.width / 2f, Screen.height / 2f));
@@ -33,13 +39,10 @@ namespace Assets.Code
 
         public void Start()
         {
-			Screen.lockCursor = true;
-            Screen.showCursor = false;
+            _flashlightImage.transform.localScale = new Vector2(Screen.width / 1600f, Screen.height / 900f);
 
-            _ui.FlashlightImage.transform.localScale = new Vector2(Screen.width / 1600f, Screen.height / 900f);
-
-            _ui.FlashlightImage.transform.position = new Vector2(0,0);
-            _ui.CrosshairImage.transform.position = new Vector2(0,0);
+            _flashlightImage.transform.position = new Vector2(0,0);
+            _crosshairImage.transform.position = new Vector2(0,0);
         }
 
         // Update is called once per frame
@@ -47,13 +50,6 @@ namespace Assets.Code
         {
 			var targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
 	        //_controller.SimpleMove(transform.TransformDirection(targetVelocity * Speed));
-
-            if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                Screen.lockCursor = !Screen.lockCursor;
-                Screen.showCursor = !Screen.showCursor;
-            }
 
             // Add the current gaze point to our list
             if (!Single.IsNaN(_gazePoint.LastGazePoint.Screen.x) && !Single.IsNaN(_gazePoint.LastGazePoint.Screen.y))
@@ -85,7 +81,7 @@ namespace Assets.Code
 
         private void RaytraceFreeze(Vector2 screenPosition)
         {
-            var ray = Camera.main.ScreenPointToRay(screenPosition);
+            var ray = MainCamera.ScreenPointToRay(screenPosition);
 
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
@@ -94,8 +90,8 @@ namespace Assets.Code
                 Instantiate(FreezyBreezePrefab, hit.point, Quaternion.identity);
             }
 
-            _ui.CrosshairImage.transform.position = screenPosition;
-            _ui.FlashlightImage.transform.position = screenPosition;
+            _crosshairImage.transform.position = screenPosition;
+            _flashlightImage.transform.position = screenPosition;
         }
     }
 }

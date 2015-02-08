@@ -8,19 +8,25 @@ namespace Assets.Code
 
         public void Awake()
         {
-            if (Target == null)
+            if (Target == null && Camera.main != null)
                 Target = Camera.main.transform;
         }
 
         public void Update()
         {
-            var v = Target.position - transform.position;
+            if (Target == null && Camera.main != null)
+                Target = Camera.main.transform;
 
-            v.x = v.z = 0.0f;
+            if (Target != null)
+            {
+                var v = Target.position - transform.position;
 
-            transform.LookAt(Target.position - v);
+                v.x = v.z = 0.0f;
 
-            transform.Rotate(0, 180, 0);
+                transform.LookAt(Target.position - v);
+
+                transform.Rotate(0, 180, 0);
+            }
         }
     }
 }

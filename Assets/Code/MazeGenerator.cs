@@ -73,7 +73,7 @@ public class MazeGenerator : MonoBehaviour
     }
 
     // Use this for initialization
-    void Start()
+    public void Build()
     {
         Maze = new MazeSpot[MazeDimension, MazeDimension];
         ConstructGrind();
@@ -264,5 +264,9 @@ public class MazeGenerator : MonoBehaviour
         }
     }
 
-   
+    public void TearDown()
+    {
+        for(var i = 0; i < transform.childCount; i++)
+            Destroy(transform.GetChild(i).gameObject);
+    }
 }

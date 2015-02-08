@@ -36,7 +36,6 @@ namespace Assets.Code
 
             transform.rotation = rotation;
             transform.position = TargetPlayer.transform.position + 
-                                 // use transform.TransformDirection instead
                                  transform.TransformVector(
                                      new Vector3 (CameraXDelta, CameraYDelta,
                                          CameraDistance));
