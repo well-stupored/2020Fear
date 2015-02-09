@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Code
 {
@@ -31,6 +30,14 @@ namespace Assets.Code
         // Update is called once per frame
         public void Update ()
         {
+            //temp
+
+            _ui.CrosshairImage.transform.position = Input.mousePosition;
+            _ui.FlashlightImage.transform.position = Input.mousePosition;
+
+            //
+
+
             var targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
 	        _controller.SimpleMove(transform.TransformDirection(targetVelocity * Speed));
 
