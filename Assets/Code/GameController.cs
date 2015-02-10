@@ -1,16 +1,18 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Code
 {
     public class GameController : MonoBehaviour
     {
+        public MazeGenerator MazeGeneratorPrefab;
         public GameObject PlayerPrefab;
         public GameObject ScaryManPrefab;
         public Vector3 PlayerSpawnLocation = new Vector3(110, 1, 110);
         public Vector3 ScaryManSpawnLocation = new Vector3(115, 1, 115);
 
-        public MazeGenerator MazeGenerator;
+        public List<MazeGenerator> MazeGenerator;
 
         public MenuCameraBehaviour MenuCamera;
         public PlayerCameraBehaviour PlayCamera;
@@ -56,7 +58,15 @@ namespace Assets.Code
             InGameMenuCanvas.enabled = false;
             MasterMenuCanvas.enabled = true;
 
-            MazeGenerator.Build();
+            var temppar = new GameObject("maze1");
+            temppar.transform.position = new Vector3(0, 0, 0);
+            var temp = Instantiate(MazeGeneratorPrefab, temppar.transform.position, Quaternion.identity) as MazeGenerator;
+            temp.transform.parent = temppar.transform;
+
+            MazeGenerator.Add(temp);
+
+            for (int i = 0; i < MazeGenerator.Count; i++)
+                MazeGenerator[i].Build();
         }
 
         public void Update()
@@ -135,8 +145,11 @@ namespace Assets.Code
 
         private void OnRebuildMazeButtonClicked()
         {
-            MazeGenerator.TearDown();
-            MazeGenerator.Build();
+            for (int i = 0; i < MazeGenerator.Count; i++)
+            {
+                MazeGenerator[i].TearDown();
+                MazeGenerator[i].Build();
+            }
         }
 
         private void OnExitButtonClicked()

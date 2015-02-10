@@ -7,6 +7,8 @@ public class MazeGenerator : MonoBehaviour
 
     public GameObject[] SpecailWalls;
 
+    public GameObject FloorPrefab;
+
 	//These should never block the path!!!
 	public GameObject[] Ob_sickles;
     
@@ -120,6 +122,9 @@ public class MazeGenerator : MonoBehaviour
 						continue;
 
 					OpenSpaces.Add(Maze[i,j].Spot.position);
+
+                    var temp = Instantiate(FloorPrefab, Maze[i, j].Spot.position, Quaternion.identity) as GameObject;
+                    temp.transform.parent = transform;
 				}
             }
         }
@@ -173,6 +178,9 @@ public class MazeGenerator : MonoBehaviour
             {
                 Maze[i, j].IsWall = false;
                 Maze[i, j].Touched = true;
+
+                var temp = Instantiate(FloorPrefab, Maze[i, j].Spot.position, Quaternion.identity) as GameObject;
+                temp.transform.parent = transform;
             }
         }
     }
