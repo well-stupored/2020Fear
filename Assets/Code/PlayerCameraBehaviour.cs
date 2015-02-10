@@ -16,6 +16,11 @@ namespace Assets.Code
         private float _cameraXRotation;
         private float _cameraYRotation;
 
+		public void Start()
+		{
+			_cameraXRotation = 211;
+		}
+
         public void Update()
         {
             if (TargetPlayer == null) return;
@@ -31,7 +36,6 @@ namespace Assets.Code
 
             transform.rotation = rotation;
             transform.position = TargetPlayer.transform.position + 
-                                 // use transform.TransformDirection instead
                                  transform.TransformVector(
                                      new Vector3 (CameraXDelta, CameraYDelta,
                                          CameraDistance));

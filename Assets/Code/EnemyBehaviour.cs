@@ -11,9 +11,13 @@ namespace Assets.Code
 
         public AudioClip ChaseSound;
         public AudioClip WanderSound;
+        public AudioClip FrozedSound;
+        public float ChaseVolume;
+        public float WanderVolume;
+        public float FrozedVolume;
 
         public Color ChaseColor = Color.red;
-        public Color FrozeColor = Color.blue;
+        public Color FrozeColor = Color.cyan;
         public float MaxFreeze = 100f;
         public float UnfreezePerSecond = 1f;
         private float _currentFreeze;
@@ -21,13 +25,11 @@ namespace Assets.Code
         private bool _isChasing;
 
         private Text _timerText;
-        private TrailRenderer _line;
         private AudioSource _audio;
 
         public new void Awake()
         {
             _timerText = GetComponentInChildren<Text>();
-            _line = GetComponent<TrailRenderer>();
             _audio = GetComponentInChildren<AudioSource>();
 
             base.Awake();
@@ -35,11 +37,13 @@ namespace Assets.Code
 
         public new void Start()
         {
-            var playerObject = GameObject.FindGameObjectWithTag("player");
+         	var playerObject = GameObject.FindGameObjectWithTag("player");
             target = playerObject.transform;
 
             _currentFreeze = MaxFreeze;
             _isChasing = false;
+
+            SetState(FrozedSound, FrozedVolume, 0);
 
             base.Start();
         }
@@ -47,18 +51,12 @@ namespace Assets.Code
         protected new void Update()
         {
             // update whether we are chasing or not
-            var wasChasing = _isChasing;
-            _isChasing = CanSeeTarget();
-            if (_isChasing && !wasChasing)
-            {
-                SetSound(ChaseSound);
-                speed = ChaseSpeed;
-            }
-            else if (!_isChasing && wasChasing)
-            {
-                SetSound(WanderSound);
-                speed = WanderSpeed;
-            }
+            _isChasing = CanSeeTarget() && _currentFreeze <= 0;
+
+            if (_isChasing && _currentFreeze <= 0)
+                SetState(ChaseSound, ChaseVolume, ChaseSpeed);
+            else if (!_isChasing && _currentFreeze <= 0)
+                SetState(WanderSound, WanderVolume, WanderSpeed);
 
             // if we are not frozen, chase
             if (_currentFreeze <= 0)
@@ -75,7 +73,6 @@ namespace Assets.Code
 
             // update our color
             renderer.material.color = Color.Lerp(ChaseColor, FrozeColor, _currentFreeze/MaxFreeze);
-            _line.material.color = Color.Lerp(ChaseColor, FrozeColor, _currentFreeze / MaxFreeze);
         }
 
         private void HandleChase()
@@ -92,28 +89,40 @@ namespace Assets.Code
 
         public void ApplyFreeze(float freezyBreezyLemonSqueezy)
         {
+            SetState(FrozedSound, FrozedVolume, 0f);
+
             _currentFreeze += freezyBreezyLemonSqueezy * Time.deltaTime * 60;
             if (_currentFreeze > MaxFreeze)
                 _currentFreeze = MaxFreeze;
         }
 
-        private void SetSound(AudioClip clip)
+        private void SetState(AudioClip clip, float volume, float newSpeed)
         {
+            if (_audio.clip.name == clip.name) return;
+
             _audio.Stop();
             _audio.clip = clip;
+            _audio.volume = volume;
             _audio.Play();
+
+            speed = newSpeed;
         }
 
         private bool CanSeeTarget()
         {
             RaycastHit hit;
             if (Physics.Raycast(transform.position, target.position - transform.position, out hit))
-            {
-                Debug.Log("raycast hit : " + hit.collider.tag);
                 return hit.collider.tag == "player";
-            }
 
             return false;
+        }
+
+        public void RendPlayer ()
+        {
+            if (_currentFreeze <= 0)
+            {
+                Debug.Log("Player is dead!");
+            }
         }
     }
 }

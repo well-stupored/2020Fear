@@ -197,12 +197,12 @@ SubstanceImporter:
     - name: concrete_049_Diffuse
       alphaSource: 5
       filterMode: 1
-      aniso: 1
+      aniso: 16
       wrapMode: 0
     - name: concrete_049_Normal
       alphaSource: 0
       filterMode: 1
-      aniso: 1
+      aniso: 16
       wrapMode: 0
     textureAssignments:
     - shaderProp:

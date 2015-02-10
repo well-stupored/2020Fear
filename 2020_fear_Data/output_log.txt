@@ -6,6 +6,7 @@ Direct3D:
     Vendor:   NVIDIA
     VRAM:     977 MB
 Begin MonoManager ReloadAssembly
+<<<<<<< HEAD
 Platform assembly: C:\Users\100453664\Desktop\Project Repos\2020Fear\2020Fear\2020_fear_Data\Managed\UnityEngine.dll (this message is harmless)
 Loading C:\Users\100453664\Desktop\Project Repos\2020Fear\2020Fear\2020_fear_Data\Managed\UnityEngine.dll into Unity Child Domain
 Platform assembly: C:\Users\100453664\Desktop\Project Repos\2020Fear\2020Fear\2020_fear_Data\Managed\Assembly-CSharp.dll (this message is harmless)
@@ -30,10 +31,33 @@ Scanning - Process took 14 ms to complete
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
+=======
+Platform assembly: C:\Projects\2020_fear\2020_fear_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Projects\2020_fear\2020_fear_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Projects\2020_fear\2020_fear_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Projects\2020_fear\2020_fear_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Projects\2020_fear\2020_fear_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading C:\Projects\2020_fear\2020_fear_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
+Platform assembly: C:\Projects\2020_fear\2020_fear_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Projects\2020_fear\2020_fear_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Projects\2020_fear\2020_fear_Data\Managed\Tobii.EyeX.Client.Net20.dll (this message is harmless)
+Loading C:\Projects\2020_fear\2020_fear_Data\Managed\Tobii.EyeX.Client.Net20.dll into Unity Child Domain
+Platform assembly: C:\Projects\2020_fear\2020_fear_Data\Managed\Pathfinding.Ionic.Zip.Reduced.dll (this message is harmless)
+Loading C:\Projects\2020_fear\2020_fear_Data\Managed\Pathfinding.Ionic.Zip.Reduced.dll into Unity Child Domain
+Platform assembly: C:\Projects\2020_fear\2020_fear_Data\Managed\Pathfinding.JsonFx.dll (this message is harmless)
+Loading C:\Projects\2020_fear\2020_fear_Data\Managed\Pathfinding.JsonFx.dll into Unity Child Domain
+- Completed reload, in  0.055 seconds
+desktop: 2880x1800 60Hz; virtual: 2880x1800 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+Platform assembly: C:\Projects\2020_fear\2020_fear_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Projects\2020_fear\2020_fear_Data\Managed\System.dll (this message is harmless)
+>>>>>>> origin/master
 EyeX is running.
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
+<<<<<<< HEAD
 raycast hit : Untagged
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
@@ -15263,6 +15287,8 @@ raycast hit : player
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
 
+=======
+>>>>>>> origin/master
 EyeX is shutting down.
  
 (Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)

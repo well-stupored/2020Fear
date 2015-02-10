@@ -1,7 +1,7 @@
 using System;
-using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using System.Reflection;
 using Pathfinding;
 
 [CustomPropertyDrawer(typeof(AstarEnumFlagAttribute))]

@@ -1,16 +1,26 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class MazeGenerator : MonoBehaviour
 {
+    public GameObject[] WallPrefabs;
 
-    public GameObject Wall;
+    public GameObject[] SpecailWalls;
+
+	//These should never block the path!!!
+	public GameObject[] Ob_sickles;
+    
+	public float ChanceForSpezcuialVValltz;
+
+	public int AmountofAwsomenessOb_sickles;
+
+    public Vector2 TopLeftOfOpenArea;
+    public int OpenAreaDemention;
 
     public int MazeDimension;
     public float GrindSpacing;
 
-    public struct MazeSpot
+    struct MazeSpot
     {
         public Transform Spot;
         public bool IsWall;
@@ -18,8 +28,9 @@ public class MazeGenerator : MonoBehaviour
     }
 
     List<Coord> Walls = new List<Coord>();
+	List<Vector3> OpenSpaces = new List<Vector3>();
 
-    public struct Coord
+    struct Coord
     {
         public int x;
         public int y;
@@ -35,11 +46,34 @@ public class MazeGenerator : MonoBehaviour
         }
     }
 
-    public MazeSpot[,] Maze;
+    MazeSpot[,] Maze;
 
+	public Vector3 GetRandomOpenPosition()
+	{
+        if (OpenSpaces.Count == 0)
+            return Vector3.zero;
+
+		int temp = Random.Range (0, OpenSpaces.Count);
+
+		return OpenSpaces [temp];
+	}
+
+    public Vector3 GetRandomOpenPositionAndRemove()
+    {
+        if (OpenSpaces.Count == 0)
+            return Vector3.zero;
+
+        int temp = Random.Range(0, OpenSpaces.Count);
+
+        Vector3 temparoo = OpenSpaces[temp];
+
+        OpenSpaces.RemoveAt(temp);
+
+        return temparoo;
+    }
 
     // Use this for initialization
-    void Start()
+    public void Build()
     {
         Maze = new MazeSpot[MazeDimension, MazeDimension];
         ConstructGrind();
@@ -53,8 +87,9 @@ public class MazeGenerator : MonoBehaviour
         {
             for (int j = 0; j < MazeDimension; j++)
             {
-                Maze[i, j].Spot = new GameObject().transform;
-                Maze[i, j].Spot.position = new Vector3(this.transform.position.x + i * GrindSpacing, 0, this.transform.position.z + j * GrindSpacing);
+                Maze[i, j].Spot = new GameObject("Wall Grid").transform;
+                Maze[i, j].Spot.transform.parent = transform;
+                Maze[i, j].Spot.position = new Vector3(transform.position.x + i * GrindSpacing, 0, transform.position.z + j * GrindSpacing);
                 Maze[i, j].IsWall = true;
                 Maze[i, j].Touched = false;
             }
@@ -67,14 +102,40 @@ public class MazeGenerator : MonoBehaviour
         {
             for (int j = 0; j < MazeDimension; j++)
             {
-                if(Maze[i,j].IsWall == true)
+                if(Maze[i,j].IsWall)
                 {
-                    GameObject temp;
-                    temp = Instantiate(Wall, Maze[i, j].Spot.position, Quaternion.identity) as GameObject;
+                    // we get a random platonic (only acceptable if we aren't on an edge
+                    var platonic = (Random.Range(0.0f, 1.0f) < ChanceForSpezcuialVValltz &&
+                                    i != 0 && i != 1 && j != 0 && j != 1 && i != Maze.GetLength(0) - 1 && j != Maze.GetLength(1) - 1)
+                                            ? SpecailWalls[Random.Range(0, SpecailWalls.Length)]
+                                            : WallPrefabs [Random.Range(0, WallPrefabs.Length )];
+
+                    var temp = Instantiate(platonic, Maze[i, j].Spot.position, Quaternion.identity) as GameObject;
                     temp.transform.parent = transform;
                 }
+				else
+				{
+					if(i >= (int)TopLeftOfOpenArea.x && i < TopLeftOfOpenArea.x + OpenAreaDemention &&
+					   j >= (int)TopLeftOfOpenArea.y && j < TopLeftOfOpenArea.y + OpenAreaDemention)
+						continue;
+
+					OpenSpaces.Add(Maze[i,j].Spot.position);
+				}
             }
         }
+
+		for (int i = 0; i < AmountofAwsomenessOb_sickles; i ++)
+		{
+			if(Ob_sickles.Length == 0 || OpenSpaces.Count == 0)
+				continue;
+
+			int ChoooooosinWone = Random.Range(0, Ob_sickles.Length);
+
+			GameObject temp;
+			temp = Instantiate(Ob_sickles[ChoooooosinWone], GetRandomOpenPositionAndRemove(), Quaternion.identity) as GameObject;
+			temp.transform.parent = transform;
+		}
+
     }
 
     void MakeMaze()
@@ -100,6 +161,19 @@ public class MazeGenerator : MonoBehaviour
         while (Walls.Count > 0)
         {
             Chung();
+        }
+
+        int MaxI = (int)TopLeftOfOpenArea.x + OpenAreaDemention + 1;
+        int MaxY = (int)TopLeftOfOpenArea.y + OpenAreaDemention + 1;
+
+        //Opening the end space hard coded bra
+        for (int i = (int)TopLeftOfOpenArea.x; i < MaxI; i++)
+        {
+            for(int j = (int)TopLeftOfOpenArea.y; j < MaxY; j++)
+            {
+                Maze[i, j].IsWall = false;
+                Maze[i, j].Touched = true;
+            }
         }
     }
 
@@ -182,7 +256,7 @@ public class MazeGenerator : MonoBehaviour
     {
         for(int i = 0; i < Walls.Count; i++)
         {
-            if(Maze[Walls[i].x, Walls[i].y].Touched == true)
+            if(Maze[Walls[i].x, Walls[i].y].Touched)
             {//remove it from the list
                 Walls.RemoveAt(i);
                 i--;
@@ -190,5 +264,9 @@ public class MazeGenerator : MonoBehaviour
         }
     }
 
-   
+    public void TearDown()
+    {
+        for(var i = 0; i < transform.childCount; i++)
+            Destroy(transform.GetChild(i).gameObject);
+    }
 }
