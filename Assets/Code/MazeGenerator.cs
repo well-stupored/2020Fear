@@ -100,6 +100,11 @@ public class MazeGenerator : MonoBehaviour
 
     void PlaceWalls()
     {
+		GameObject floor = Instantiate(FloorPrefab, this.transform.position + new Vector3(MazeDimension/2, 0, MazeDimension/2) * GrindSpacing, Quaternion.identity) as GameObject;
+		floor.transform.localScale = new Vector3 (MazeDimension/2, 1, MazeDimension/2);
+		floor.name = "Floor";
+		floor.transform.parent = transform;
+
         for (int i = 0; i < MazeDimension; i++)
         {
             for (int j = 0; j < MazeDimension; j++)
@@ -122,9 +127,6 @@ public class MazeGenerator : MonoBehaviour
 						continue;
 
 					OpenSpaces.Add(Maze[i,j].Spot.position);
-
-                    var temp = Instantiate(FloorPrefab, Maze[i, j].Spot.position, Quaternion.identity) as GameObject;
-                    temp.transform.parent = transform;
 				}
             }
         }
@@ -178,9 +180,6 @@ public class MazeGenerator : MonoBehaviour
             {
                 Maze[i, j].IsWall = false;
                 Maze[i, j].Touched = true;
-
-                var temp = Instantiate(FloorPrefab, Maze[i, j].Spot.position, Quaternion.identity) as GameObject;
-                temp.transform.parent = transform;
             }
         }
     }
