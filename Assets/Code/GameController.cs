@@ -6,15 +6,17 @@ namespace Assets.Code
 {
     public class GameController : MonoBehaviour
     {
-        public MazeGenerator MazeGeneratorPrefab;
+        public MazeGenerator Maze;
         public GameObject PlayerPrefab;
         public GameObject ScaryManPrefab;
-        public Vector3 PlayerSpawnLocation = new Vector3(110, 1, 110);
-        public Vector3 ScaryManSpawnLocation = new Vector3(115, 1, 115);
 
-        public List<MazeGenerator> MazeGenerator;
+		public bool MazeControlledSpawn = true;
+		public int SpawnDistFromCenter;
+		public int AmountOfScaryMen;
+		public Vector3 PlayerSpawnLocation = new Vector3(110, 1, 110);
+        public Vector3[] ScaryManSpawnLocation;
 
-        public MenuCameraBehaviour MenuCamera;
+		public MenuCameraBehaviour MenuCamera;
         public PlayerCameraBehaviour PlayCamera;
 
         public Canvas PlayCanvas;
@@ -29,7 +31,7 @@ namespace Assets.Code
         private Button _inGameMenuGoToMasterMenuButton;
 
         private GameObject _player;
-        private GameObject _scaryMan;
+        private GameObject[] _scaryMen;
 
         private GameState _currentState;
 
@@ -58,15 +60,23 @@ namespace Assets.Code
             InGameMenuCanvas.enabled = false;
             MasterMenuCanvas.enabled = true;
 
-            var temppar = new GameObject("maze1");
-            temppar.transform.position = new Vector3(0, 0, 0);
-            var temp = Instantiate(MazeGeneratorPrefab, temppar.transform.position, Quaternion.identity) as MazeGenerator;
-            temp.transform.parent = temppar.transform;
+			Maze.Build();
 
-            MazeGenerator.Add(temp);
+			if (MazeControlledSpawn)
+			{
+				PlayerSpawnLocation = Maze.GetOpenLocationNearCenterAndRemove (SpawnDistFromCenter) + new Vector3(0,1,0);
 
-            for (int i = 0; i < MazeGenerator.Count; i++)
-                MazeGenerator[i].Build();
+				ScaryManSpawnLocation = new Vector3[AmountOfScaryMen];
+
+				for(int i = 0; i < AmountOfScaryMen; i++)
+					ScaryManSpawnLocation[i] = Maze.GetOpenLocationNearCenterAndRemove (SpawnDistFromCenter) + new Vector3(0,1,0);
+			}
+			else
+			{
+				AmountOfScaryMen = ScaryManSpawnLocation.Length;
+			}
+
+			_scaryMen = new GameObject[AmountOfScaryMen];
         }
 
         public void Update()
@@ -113,8 +123,10 @@ namespace Assets.Code
             MenuCamera.gameObject.SetActive(true);
             PlayCamera.gameObject.SetActive(false);
 
-            Destroy(_scaryMan);
             Destroy(_player);
+
+			for(int i = 0; i < AmountOfScaryMen; i++)
+				Destroy(_scaryMen[i]);
 
             _currentState = GameState.MasterMenu;
         }
@@ -128,10 +140,12 @@ namespace Assets.Code
             MasterMenuCanvas.enabled = false;
             InGameMenuCanvas.enabled = false;
 
-            if (_player == null && _scaryMan == null)
+            if (_player == null && _scaryMen[0] == null)
             {
                 _player = Instantiate(PlayerPrefab, PlayerSpawnLocation, Quaternion.identity) as GameObject;
-                _scaryMan = Instantiate(ScaryManPrefab, ScaryManSpawnLocation, Quaternion.identity) as GameObject;
+
+				for(int i = 0; i < AmountOfScaryMen; i++)
+					_scaryMen[i] = Instantiate(ScaryManPrefab, ScaryManSpawnLocation[i], Quaternion.identity) as GameObject;
             }
 
             MenuCamera.gameObject.SetActive(false);
@@ -145,11 +159,8 @@ namespace Assets.Code
 
         private void OnRebuildMazeButtonClicked()
         {
-            for (int i = 0; i < MazeGenerator.Count; i++)
-            {
-                MazeGenerator[i].TearDown();
-                MazeGenerator[i].Build();
-            }
+	        Maze.TearDown();
+			Maze.Build();
         }
 
         private void OnExitButtonClicked()

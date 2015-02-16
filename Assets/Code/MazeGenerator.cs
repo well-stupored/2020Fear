@@ -16,11 +16,14 @@ public class MazeGenerator : MonoBehaviour
 
 	public int AmountofAwsomenessOb_sickles;
 
+	public bool ClearOpenArea = true;
     public Vector2 TopLeftOfOpenArea;
     public int OpenAreaDemention;
 
     public int MazeDimension;
     public float GrindSpacing;
+
+	Vector3 MiddleEarth = new Vector3();
 
     struct MazeSpot
     {
@@ -50,6 +53,11 @@ public class MazeGenerator : MonoBehaviour
 
     MazeSpot[,] Maze;
 
+	public Vector3 GetMiddleOfMaze()
+	{
+		return MiddleEarth;
+	}
+
 	public Vector3 GetRandomOpenPosition()
 	{
         if (OpenSpaces.Count == 0)
@@ -74,6 +82,83 @@ public class MazeGenerator : MonoBehaviour
         return temparoo;
     }
 
+	public Vector3 GetOpenLocationNearCenter(int DistFromCenter)
+	{
+		int Middle = MazeDimension / 2;
+
+		if (DistFromCenter > Middle)
+			DistFromCenter = Middle;
+
+		for (int i = 0; i < DistFromCenter; i ++)
+		{
+			for(int j = 0; j < DistFromCenter; j ++)
+			{
+				if(!Maze[Middle + i,Middle + j].IsWall)
+				{
+					return Maze[Middle + i,Middle + j].Spot.position;
+				}
+				if(!Maze[Middle + (i * -1),Middle + (j * -1)].IsWall)
+				{
+					return Maze[Middle + (i * -1),Middle + (j * -1)].Spot.position;
+				}
+			}
+		}
+		//If we get here A-Aron screwed up
+		return new Vector3(-1,0,-1);
+	}
+
+	public Vector3 GetOpenLocationNearCenterAndRemove(int DistFromCenter)
+	{
+		int Middle = MazeDimension / 2;
+
+		if (DistFromCenter > Middle)
+			DistFromCenter = Middle;
+		
+		for (int i = 0; i < DistFromCenter; i ++)
+		{
+			for(int j = 0; j < DistFromCenter; j ++)
+			{
+				if(!Maze[Middle + i,Middle + j].IsWall)
+				{
+					Maze[Middle + i,Middle + j].IsWall = true;
+					RemoveSpot(Maze[Middle + i,Middle + j].Spot.position);
+					return Maze[Middle + i,Middle + j].Spot.position;
+				}
+				if(!Maze[Middle + (i * -1),Middle + (j * -1)].IsWall)
+				{
+					Maze[Middle + (i * -1),Middle + (j * -1)].IsWall = true;
+					RemoveSpot(Maze[Middle + (i * -1),Middle + (j * -1)].Spot.position);
+					return Maze[Middle + (i * -1),Middle + (j * -1)].Spot.position;
+				}
+			}
+		}
+		//If we get here A-Aron screwed up
+		return new Vector3(-1,0,-1);
+	}
+
+	private void RemoveSpot(Vector3 inSpot)
+	{
+		for (int i = 0; i < OpenSpaces.Count; i ++)
+		{
+			if (SamePosition(OpenSpaces[i],inSpot, 2.0f))
+			{
+				OpenSpaces.RemoveAt(i);
+				return;
+			}
+		}
+
+		Debug.Log("Could Not find Match");
+	}
+
+	private bool SamePosition(Vector3 Pos1, Vector3 Pos2, float Range)
+	{
+		if (((Pos1.x + Range) > Pos2.x) && ((Pos1.x - Range) < Pos2.x) &&
+			((Pos1.y + Range) > Pos2.y) && ((Pos1.y - Range) < Pos2.y) &&
+			((Pos1.z + Range) > Pos2.z) && ((Pos1.z - Range) < Pos2.z)	 )
+			return true;
+		return false;
+	}
+
     // Use this for initialization
     public void Build()
     {
@@ -85,6 +170,8 @@ public class MazeGenerator : MonoBehaviour
 
     void ConstructGrind()
     {
+		MiddleEarth = this.transform.position + new Vector3 (MazeDimension / 2, 0, MazeDimension / 2) * GrindSpacing;
+
         for (int i = 0; i < MazeDimension; i++)
         {
             for (int j = 0; j < MazeDimension; j++)
@@ -122,9 +209,12 @@ public class MazeGenerator : MonoBehaviour
                 }
 				else
 				{
-					if(i >= (int)TopLeftOfOpenArea.x && i < TopLeftOfOpenArea.x + OpenAreaDemention &&
-					   j >= (int)TopLeftOfOpenArea.y && j < TopLeftOfOpenArea.y + OpenAreaDemention)
-						continue;
+					if(ClearOpenArea)
+					{
+						if(i >= (int)TopLeftOfOpenArea.x && i < TopLeftOfOpenArea.x + OpenAreaDemention &&
+						   j >= (int)TopLeftOfOpenArea.y && j < TopLeftOfOpenArea.y + OpenAreaDemention)
+							continue;
+					}
 
 					OpenSpaces.Add(Maze[i,j].Spot.position);
 				}
@@ -172,6 +262,9 @@ public class MazeGenerator : MonoBehaviour
 
         int MaxI = (int)TopLeftOfOpenArea.x + OpenAreaDemention + 1;
         int MaxY = (int)TopLeftOfOpenArea.y + OpenAreaDemention + 1;
+
+		if (!ClearOpenArea)
+			return;
 
         //Opening the end space hard coded bra
         for (int i = (int)TopLeftOfOpenArea.x; i < MaxI; i++)
@@ -273,7 +366,7 @@ public class MazeGenerator : MonoBehaviour
 
     public void TearDown()
     {
-        for(var i = 0; i < transform.childCount; i++)
+        for(int i = 0; i < transform.childCount; i++)
             Destroy(transform.GetChild(i).gameObject);
     }
 }

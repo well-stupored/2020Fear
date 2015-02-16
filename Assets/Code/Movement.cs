@@ -6,11 +6,6 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody))]
 public class Movement : MonoBehaviour 
 {
-	//public Vector3 ForwardD;
-	//public Vector3 BackwardD;
-	//public Vector3 LeftD;
-	//public Vector3 RightD;
-
 	public KeyCode ForwardK;
 	public KeyCode BackwardK;
 	public KeyCode LeftK;
