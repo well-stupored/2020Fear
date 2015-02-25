@@ -234,8 +234,14 @@ namespace Assets.Code
 
         private void OnRebuildMazeButtonClicked()
         {
+            MenuCamera.gameObject.SetActive(false);
+            PlayCamera.gameObject.SetActive(true);
+
 	        Maze.TearDown();
 			Maze.Build();
+
+            MenuCamera.gameObject.SetActive(true);
+            PlayCamera.gameObject.SetActive(false);
         }
 
         private void OnExitButtonClicked()
