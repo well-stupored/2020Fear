@@ -16,6 +16,11 @@ namespace Assets.Code
 		public Vector3 PlayerSpawnLocation = new Vector3(110, 1, 110);
         public Vector3[] ScaryManSpawnLocation;
 
+        public bool SpawnScaryMenRandomly;
+        public int RandomScaryMenAmount;
+        public float SpawnTime;
+        private float DT = 0.0f;
+
 		public MenuCameraBehaviour MenuCamera;
         public PlayerCameraBehaviour PlayCamera;
 
@@ -104,7 +109,19 @@ namespace Assets.Code
                 Screen.lockCursor = !Screen.lockCursor;
                 Screen.showCursor = !Screen.showCursor;
             }
-
+            if (SpawnScaryMenRandomly)
+            {
+                DT += Time.deltaTime;
+                if (DT > SpawnTime)
+                {
+                    DT = 0.0f;
+                    if (RandomScaryMenAmount > 0)
+                        Instantiate(ScaryManPrefab, Maze.GetRandomOpenPosition(), Quaternion.identity);
+                    else
+                        SpawnScaryMenRandomly = false;
+                    RandomScaryMenAmount--;
+                }
+            }
             if (_player != null)
             {
                 if (_player.IsDead)
