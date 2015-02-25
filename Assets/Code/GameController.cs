@@ -18,8 +18,11 @@ namespace Assets.Code
 
         public bool SpawnScaryMenRandomly;
         public int RandomScaryMenAmount;
+        private int SpawnedMen = 0;
         public float SpawnTime;
         private float DT = 0.0f;
+        private bool GameOn = false;
+        private List<GameObject> RandomMen; 
 
 		public MenuCameraBehaviour MenuCamera;
         public PlayerCameraBehaviour PlayCamera;
@@ -42,6 +45,8 @@ namespace Assets.Code
 
         public void Awake()
         {
+            RandomMen = new List<GameObject>();
+
             Screen.lockCursor = false;
             Screen.showCursor = true;
 
@@ -100,17 +105,17 @@ namespace Assets.Code
                 Screen.showCursor = !Screen.showCursor;
             }
 
-            if (SpawnScaryMenRandomly)
+            if (SpawnScaryMenRandomly && GameOn)
             {
                 DT += Time.deltaTime;
                 if (DT > SpawnTime)
                 {
                     DT = 0.0f;
-                    if (RandomScaryMenAmount > 0)
-                        Instantiate(ScaryManPrefab, Maze.GetRandomOpenPosition(), Quaternion.identity);
+                    if (RandomScaryMenAmount > SpawnedMen)
+                        RandomMen.Add(Instantiate(ScaryManPrefab, Maze.GetRandomOpenPosition(), Quaternion.identity) as GameObject);
                     else
                         SpawnScaryMenRandomly = false;
-                    RandomScaryMenAmount --;
+                    SpawnedMen ++;
                 }
             }
         }
@@ -147,6 +152,9 @@ namespace Assets.Code
 			for(int i = 0; i < AmountOfScaryMen; i++)
 				Destroy(_scaryMen[i]);
 
+            for (int i = 0; i < RandomMen.Count; i++)
+                Destroy(RandomMen[i]);
+
             _currentState = GameState.MasterMenu;
         }
 
@@ -174,6 +182,9 @@ namespace Assets.Code
             playerBehaviour.MainCamera = PlayCamera.camera;
 
             _currentState = GameState.Play;
+
+            GameOn = true;
+            SpawnedMen = 0;
         }
 
         private void OnRebuildMazeButtonClicked()
