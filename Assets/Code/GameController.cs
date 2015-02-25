@@ -138,7 +138,7 @@ namespace Assets.Code
             }
         }
 
-        private void OnGameOver(bool didWin)
+        public void OnGameOver(bool didWin)
         {
             Screen.lockCursor = false;
             Screen.showCursor = true;
