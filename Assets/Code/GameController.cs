@@ -30,7 +30,11 @@ namespace Assets.Code
         private Button _inGameMenuResumeButton;
         private Button _inGameMenuGoToMasterMenuButton;
 
-        private GameObject _player;
+        public Canvas GameOverCanvas;
+        private Text _gameOverDetailsText;
+        private Button _gameOverOkayButton;
+
+        private PlayerBehaviour _player;
         private GameObject[] _scaryMen;
 
         private GameState _currentState;
@@ -49,6 +53,9 @@ namespace Assets.Code
             _inGameMenuGoToMasterMenuButton = InGameMenuCanvas.transform.FindChild("go_to_master_menu_button").GetComponent<Button>();
             _inGameMenuResumeButton = InGameMenuCanvas.transform.FindChild("resume_button").GetComponent<Button>();
 
+            _gameOverDetailsText = GameOverCanvas.transform.FindChild("game_over_details_text").GetComponent<Text>();
+            _gameOverOkayButton = GameOverCanvas.transform.FindChild("game_over_okay_button").GetComponent<Button>();
+
             _masterMenuPlayButton.onClick.AddListener(OnPlayButtonClicked);
             _masterMenuRebuildMazeButton.onClick.AddListener(OnRebuildMazeButtonClicked);
             _masterMenuExitButton.onClick.AddListener(OnExitButtonClicked);
@@ -56,9 +63,12 @@ namespace Assets.Code
             _inGameMenuGoToMasterMenuButton.onClick.AddListener(OnGoToMasterMenuButtonClicked);
             _inGameMenuResumeButton.onClick.AddListener(OnPlayButtonClicked);
 
+            _gameOverOkayButton.onClick.AddListener(OnGoToMasterMenuButtonClicked);
+
             PlayCanvas.enabled = false;
             InGameMenuCanvas.enabled = false;
             MasterMenuCanvas.enabled = true;
+            GameOverCanvas.enabled = false;
 
 			Maze.Build();
 
@@ -68,7 +78,7 @@ namespace Assets.Code
 
 				ScaryManSpawnLocation = new Vector3[AmountOfScaryMen];
 
-				for(int i = 0; i < AmountOfScaryMen; i++)
+				for(var i = 0; i < AmountOfScaryMen; i++)
 					ScaryManSpawnLocation[i] = Maze.GetOpenLocationNearCenterAndRemove (SpawnDistFromCenter) + new Vector3(0,1,0);
 			}
 			else
@@ -94,6 +104,37 @@ namespace Assets.Code
                 Screen.lockCursor = !Screen.lockCursor;
                 Screen.showCursor = !Screen.showCursor;
             }
+
+            if (_player != null)
+            {
+                if (_player.IsDead)
+                    OnGameOver(false);
+                if (_player.IsFree)
+                    OnGameOver(true);
+            }
+        }
+
+        private void OnGameOver(bool didWin)
+        {
+            Screen.lockCursor = false;
+            Screen.showCursor = true;
+
+            PlayCanvas.enabled = false;
+            MasterMenuCanvas.enabled = false;
+            InGameMenuCanvas.enabled = false;
+            GameOverCanvas.enabled = true;
+
+            MenuCamera.gameObject.SetActive(true);
+            PlayCamera.gameObject.SetActive(false);
+
+            if(_player != null)
+                Destroy(_player.gameObject);
+
+            for (var i = 0; i < AmountOfScaryMen; i++)
+                Destroy(_scaryMen[i].gameObject);
+
+            _gameOverDetailsText.text = didWin ? "YOU HAVE ESCAPED THE MAZE" : "SCARY MAN HAS CAUGHT YOU";
+            _gameOverOkayButton.GetComponentInChildren<Text>().text = didWin ? "HOORAY!" : "OKAY :(";
         }
 
         private void OnInGameMenuButtonClicked()
@@ -104,6 +145,7 @@ namespace Assets.Code
             PlayCanvas.enabled = false;
             MasterMenuCanvas.enabled = false;
             InGameMenuCanvas.enabled = true;
+            GameOverCanvas.enabled = false;
 
             MenuCamera.gameObject.SetActive(false);
             PlayCamera.gameObject.SetActive(true);
@@ -119,14 +161,16 @@ namespace Assets.Code
             PlayCanvas.enabled = false;
             MasterMenuCanvas.enabled = true;
             InGameMenuCanvas.enabled = false;
+            GameOverCanvas.enabled = false;
 
             MenuCamera.gameObject.SetActive(true);
             PlayCamera.gameObject.SetActive(false);
 
-            Destroy(_player);
+            if(_player != null)
+            Destroy(_player.gameObject);
 
-			for(int i = 0; i < AmountOfScaryMen; i++)
-				Destroy(_scaryMen[i]);
+			for(var i = 0; i < AmountOfScaryMen; i++)
+				Destroy(_scaryMen[i].gameObject);
 
             _currentState = GameState.MasterMenu;
         }
@@ -139,10 +183,12 @@ namespace Assets.Code
             PlayCanvas.enabled = true;
             MasterMenuCanvas.enabled = false;
             InGameMenuCanvas.enabled = false;
+            GameOverCanvas.enabled = false;
 
             if (_player == null && _scaryMen[0] == null)
             {
-                _player = Instantiate(PlayerPrefab, PlayerSpawnLocation, Quaternion.identity) as GameObject;
+                var playerObject = Instantiate(PlayerPrefab, PlayerSpawnLocation, Quaternion.identity) as GameObject;
+                _player = playerObject.GetComponent<PlayerBehaviour>();
 
 				for(int i = 0; i < AmountOfScaryMen; i++)
 					_scaryMen[i] = Instantiate(ScaryManPrefab, ScaryManSpawnLocation[i], Quaternion.identity) as GameObject;
@@ -150,9 +196,8 @@ namespace Assets.Code
 
             MenuCamera.gameObject.SetActive(false);
             PlayCamera.gameObject.SetActive(true);
-            var playerBehaviour = _player.GetComponent<PlayerBehaviour>();
-            PlayCamera.TargetPlayer = playerBehaviour;
-            playerBehaviour.MainCamera = PlayCamera.camera;
+            PlayCamera.TargetPlayer = _player;
+            _player.MainCamera = PlayCamera.camera;
 
             _currentState = GameState.Play;
         }

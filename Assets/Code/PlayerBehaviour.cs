@@ -12,6 +12,13 @@ namespace Assets.Code
         public GameObject FreezyBreezePrefab;
         public float Speed = 5;
         public Quaternion AimDirection = Quaternion.identity;
+        public float MapMinX = 0;
+        public float MapMaxX = 200;
+        public float MapMinZ = 0;
+        public float MapMaxZ = 200;
+
+        public bool IsDead = false;
+        public bool IsFree = false;
 
         private GazePointDataComponent _gazePoint;
         private Image _crosshairImage;
@@ -26,6 +33,8 @@ namespace Assets.Code
 
         public void Awake()
         {
+            Debug.Log("player has been spawned");
+
             _crosshairImage = GameObject.Find("play_canvas").transform.FindChild("crosshair_image").GetComponent<Image>();
             _flashlightImage = GameObject.Find("play_canvas").transform.FindChild("flashlight_image").GetComponent<Image>();
 
@@ -48,8 +57,6 @@ namespace Assets.Code
         // Update is called once per frame
         public void Update ()
         {
-            //temp
-
             _crosshairImage.transform.position = Input.mousePosition;
             _flashlightImage.transform.position = Input.mousePosition;
 
@@ -82,6 +89,14 @@ namespace Assets.Code
 
             if (Input.GetMouseButton(0))         RaytraceFreeze(new Vector2(Screen.width / 2f, Screen.height / 2f));
             if(_gazePoint.LastGazePoint.IsValid) RaytraceFreeze(_finalGazePoint);
+
+            if (transform.position.x < MapMinX || transform.position.x > MapMaxX || transform.position.z < MapMinZ || transform.position.z > MapMaxZ)
+                IsFree = true;
+        }
+
+        public void Kill()
+        {
+            IsDead = true;
         }
 
         private void RaytraceFreeze(Vector2 screenPosition)

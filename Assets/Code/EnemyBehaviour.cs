@@ -117,12 +117,10 @@ namespace Assets.Code
             return false;
         }
 
-        public void RendPlayer ()
+        public void OnTriggerEnter(Collider other)
         {
-            if (_currentFreeze <= 0)
-            {
-                Debug.Log("Player is dead!");
-            }
+            if (other.tag == "player" && _currentFreeze <= 0)
+                other.gameObject.SendMessage("Kill", SendMessageOptions.DontRequireReceiver);
         }
     }
 }
