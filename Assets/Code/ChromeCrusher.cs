@@ -16,7 +16,7 @@ public class ChromeCrusher : MonoBehaviour
     {
         if (other.tag == KillTag)
         {   //use loose
-            Game.OnGameOver(false);
+            Game.OnGameOver(false, "YOU WERE IMPALED BY SPIKES");
         }
     }
 

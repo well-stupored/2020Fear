@@ -137,13 +137,13 @@ namespace Assets.Code
             if (_player != null)
             {
                 if (_player.IsDead)
-                    OnGameOver(false);
+                    OnGameOver(false, "SCARY MAN HAS CAUGHT YOU");
                 if (_player.IsFree)
-                    OnGameOver(true);
+                    OnGameOver(true, "YOU HAVE ESCAPED THE MAZE");
             }
         }
 
-        public void OnGameOver(bool didWin)
+        public void OnGameOver(bool didWin, string endMessage)
         {
             GameOn = false;
 
@@ -164,7 +164,7 @@ namespace Assets.Code
             for (var i = 0; i < AmountOfScaryMen; i++)
                 Destroy(_scaryMen[i].gameObject);
 
-            _gameOverDetailsText.text = didWin ? "YOU HAVE ESCAPED THE MAZE" : "SCARY MAN HAS CAUGHT YOU";
+            _gameOverDetailsText.text = endMessage;// "YOU HAVE ESCAPED THE MAZE" : "SCARY MAN HAS CAUGHT YOU";
             _gameOverOkayButton.GetComponentInChildren<Text>().text = didWin ? "HOORAY!" : "OKAY :(";
         }
 
