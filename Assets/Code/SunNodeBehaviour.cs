@@ -15,7 +15,7 @@ namespace Assets.Code
 
         public void Update()
         {
-            transform.Rotate(_axis, _speed);
+            transform.Rotate(_axis, _speed * Time.deltaTime);
         }
     }
 }
