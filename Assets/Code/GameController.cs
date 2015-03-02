@@ -82,21 +82,26 @@ namespace Assets.Code
 
 			Maze.Build();
 
-			if (MazeControlledSpawn)
-			{
-				PlayerSpawnLocation = Maze.GetOpenLocationNearCenterAndRemove (SpawnDistFromCenter) + new Vector3(0,1,0);
-
-				ScaryManSpawnLocation = new Vector3[AmountOfScaryMen];
-
-				for(var i = 0; i < AmountOfScaryMen; i++)
-					ScaryManSpawnLocation[i] = Maze.GetOpenLocationNearCenterAndRemove (SpawnDistFromCenter) + new Vector3(0,1,0);
-			}
-			else
-			{
-				AmountOfScaryMen = ScaryManSpawnLocation.Length;
-			}
+            GetSpawnLocations();
 
 			_scaryMen = new GameObject[AmountOfScaryMen];
+        }
+
+        void GetSpawnLocations()
+        {
+            if (MazeControlledSpawn)
+            {
+                PlayerSpawnLocation = Maze.GetOpenLocationNearCenterAndRemove(SpawnDistFromCenter) + new Vector3(0, 1, 0);
+
+                ScaryManSpawnLocation = new Vector3[AmountOfScaryMen];
+
+                for (var i = 0; i < AmountOfScaryMen; i++)
+                    ScaryManSpawnLocation[i] = Maze.GetOpenLocationNearCenterAndRemove(SpawnDistFromCenter) + new Vector3(0, 1, 0);
+            }
+            else
+            {
+                AmountOfScaryMen = ScaryManSpawnLocation.Length;
+            }
         }
 
         public void Update()
@@ -140,6 +145,8 @@ namespace Assets.Code
 
         public void OnGameOver(bool didWin)
         {
+            GameOn = false;
+
             Screen.lockCursor = false;
             Screen.showCursor = true;
 
@@ -175,6 +182,8 @@ namespace Assets.Code
             PlayCamera.gameObject.SetActive(true);
 
             _currentState = GameState.InGameMenu;
+
+            GameOn = false;
         }
 
         private void OnGoToMasterMenuButtonClicked()
@@ -189,6 +198,8 @@ namespace Assets.Code
 
             MenuCamera.gameObject.SetActive(true);
             PlayCamera.gameObject.SetActive(false);
+
+            GameOn = false;
 
             if(_player != null)
             Destroy(_player.gameObject);
@@ -240,12 +251,16 @@ namespace Assets.Code
 	        Maze.TearDown();
 			Maze.Build();
 
+            GetSpawnLocations();
+
             MenuCamera.gameObject.SetActive(true);
             PlayCamera.gameObject.SetActive(false);
         }
 
         private void OnExitButtonClicked()
         {
+            GameOn = false;
+
             Application.Quit();
         }
     }
